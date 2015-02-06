@@ -39,8 +39,25 @@ function updateSnake(){
 	for(var i=1; i<sList.length; i++){
 		sList.getAt(i).prevX = sList.getAt(i).x;
 		sList.getAt(i).prevY = sList.getAt(i).y;
-		sList.getAt(i).x = sList.getAt(i-1).prevX;
-		sList.getAt(i).y = sList.getAt(i-1).prevY;
+		switch(sHead.direction){
+		case "left":
+			sList.getAt(i).x = (sList.getAt(i-1).prevX+2);
+			sList.getAt(i).y = (sList.getAt(i-1).prevY);
+			break;
+		case "right":
+			sList.getAt(i).x = (sList.getAt(i-1).prevX-2);
+			sList.getAt(i).y = (sList.getAt(i-1).prevY);
+			break;
+		case "up":
+		 sList.getAt(i).x = (sList.getAt(i-1).prevX);
+		 sList.getAt(i).y = (sList.getAt(i-1).prevY+2);
+			break;
+		case "down":
+			sList.getAt(i).x = (sList.getAt(i-1).prevX);
+			sList.getAt(i).y = (sList.getAt(i-1).prevY-2);
+			break;
+	}
+		
 	}
 }
 
