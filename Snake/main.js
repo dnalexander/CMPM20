@@ -53,6 +53,7 @@ function startGame() {
 	for(var j=0; j<sList.length; j++){
 		world.addChild(sList.getAt(j));
 	}
+	console.log(sList.tail);
 	run = setInterval(updateGame, 160);
 }
 
@@ -81,28 +82,17 @@ function updateSnake(){
 	}
 }
 
-function checkSnake(Sprite1, Sprite2){
-	//1st Sprite bounds
-	var minX1 = Sprite1.x;
-	var maxX1 = Sprite1.x + Sprite1.width;
-	var minY1 = Sprite1.y;
-	var maxY1 = Sprite1.y + Sprite1.height;
-	
-	//2nd Sprite bounds
-	var minX2 = Sprite2.x;
-	var maxX2 = Sprite2.x + Sprite2.width;
-	var minY1 = Sprite2.y;
-	var maxY2 = Sprite2.y + Sprite2.height;
-	
-	if(maxX1 >= minX2 && maxX1 <= maxX2 && maxXY1 >= minY1 && maxY2 <= minY2){
-		return true;
-	}else {
-		return false;
+function checkNom(x, y, List){	
+	for(var i=1; i<List.length; i++){
+		if(List.getAt(i).x == x && List.getAt(i).y == y){
+			return true;
+		}
 	}
+	return false;
 }
 
 function updateGame(){
-	//Check for end game
+	//Check for wall hit
 	if(sHead.x+tileSize >= worldWidth || sHead.x <= 0 || sHead.y+tileSize >= worldHeight || sHead.y <= 0){
 		stop = true;
 		clearInterval(run);
@@ -117,7 +107,38 @@ function updateGame(){
 	}
 	
 	//Check for eaten
-	
+	if(sHead.x == food.x && sHead.y == food.y){
+		/*var snake = new Sprite();
+   		snake.height = tileSize;
+   		snake.width = tileSize;
+   		switch(sHead.direction){
+			case "left":
+   				snake.x = (sList.tail.x+(tileSize+2));
+   				snake.y = (sList.tail.y);
+   				break;
+			case "right":
+				snake.x = (sList.tail.x-(tileSize+2));
+   				snake.y = (sList.tail.y);
+				break;
+			case "up":
+				snake.x = (sList.tail.x);
+   				snake.y = (sList.tail.y+(tileSize+2));
+				break;
+			case "down":
+				snake.x = (sList.tail.x);
+   				snake.y = (sList.tail.y-(tileSize+2));
+				break;
+		}
+   		snake.prevX = snake.x;
+   		snake.prevY = snake.y;	
+   		snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sBody.png");
+   		sList.push_back(snake);
+   		world.addChild(sList.tail);*/
+	}
+	if(checkNom(sHead.x, sHead.y, sList)){
+		console.log("SHIT NIGGA");
+	}
+
 	//Movement
 	if(gInput.left && (sHead.direction != "right")){
 		sHead.direction = "left";
@@ -147,7 +168,7 @@ function updateGame(){
 			sHead.y += tileSize;
 			break;
 	}
-	updateSnake();		
+	updateSnake();
 }
 
 startGame();
