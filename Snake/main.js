@@ -5,11 +5,14 @@ var tileSize = 20;
 var worldWidth = 800;
 var worldHeight = 800;
 var run;
-var stop = false;
+
+//Input bools : Snake controlled by WASD
 gInput.addBool(65, "left");
 gInput.addBool(68, "right");
 gInput.addBool(87, "up");
 gInput.addBool(83, "down");
+
+
 var sList = new List();
 var sHead = new Sprite();
 sHead.height = tileSize;
@@ -92,9 +95,8 @@ function checkNom(x, y, List){
 }
 
 function updateGame(){
-	//Check for wall hit
+	//Check for wall hit, re-init game
 	if(sHead.x+tileSize >= worldWidth || sHead.x <= 0 || sHead.y+tileSize >= worldHeight || sHead.y <= 0){
-		stop = true;
 		clearInterval(run);
 		var hold = sList.length;
 		for(var i=0; i<hold; i++){
@@ -106,7 +108,7 @@ function updateGame(){
 		startGame();
 	}
 	
-	//Check for eaten
+	//Check for dinner, grow snake properly
 	if(sHead.x == food.x && sHead.y == food.y){
 		var snake = new Sprite();
    		snake.height = tileSize;
@@ -137,11 +139,12 @@ function updateGame(){
    		food.x = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
    		food.y = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
 	}
+	
+	//Check for self-dinner, re-init game
 	if(checkNom(sHead.x, sHead.y, sList)){
-		console.log("SHIT NIGGA");
 	}
 
-	//Movement
+	//Movement (Lines 145-174)
 	if(gInput.left && (sHead.direction != "right")){
 		sHead.direction = "left";
 	}
