@@ -41,27 +41,30 @@ function moveRight(Sprite){
 
 function moveLeft(Sprite){
 	Sprite.x -= tileSize;
+	Sprite.prevX -= tileSize;
 }
 
 function moveUp(Sprite){
 	Sprite.y -= tileSize;
+	Sprite.prevY -= tileSize;
 }
 
 function moveDown(Sprite){
 	Sprite.y += tileSize;
+	Sprite.prevY += tileSize;
 }
 
 function updateSnake(){
-	if(gInput.left && !gInput.right && !gInput.up && !gInput.down && (sHead.direction != "right")){
+	if(gInput.left && (sHead.direction != "right")){
 		sHead.direction = "left";
 	}
-	if(!gInput.left && gInput.right && !gInput.up && !gInput.down && (sHead.direction != "left")){
+	if(gInput.right && (sHead.direction != "left")){
 		sHead.direction = "right";
 	}
-	if(!gInput.left && !gInput.right && gInput.up && !gInput.down && (sHead.direction != "down")){
+	if(gInput.up && (sHead.direction != "down")){
 		sHead.direction = "up";
 	}
-	if(!gInput.left && !gInput.right && !gInput.up && gInput.down && (sHead.direction != "up")){
+	if(gInput.down && (sHead.direction != "up")){
 		sHead.direction = "down";
 	}
 	switch(sHead.direction){
@@ -95,8 +98,8 @@ function updateSnake(){
 			sHead.prevY += tileSize;
 			sHead.y += tileSize;
 			break;			
-	}*/
-	/*console.log("left = "+gInput.left);
+	}
+	console.log("left = "+gInput.left);
 	console.log("right = "+gInput.right);
 	console.log("up = "+gInput.up);
 	console.log("down = "+gInput.down);*/
