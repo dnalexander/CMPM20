@@ -113,27 +113,27 @@ function updateGame(){
    		snake.width = tileSize;
    		switch(sHead.direction){
 			case "left":
-   				snake.x = (sList.tail.x+(tileSize+2));
-   				snake.y = (sList.tail.y);
+   				snake.x = (sList.getAt(sList.length-1).x+(tileSize+2));
+   				snake.y = (sList.getAt(sList.length-1).y);
    				break;
 			case "right":
-				snake.x = (sList.tail.x-(tileSize+2));
-   				snake.y = (sList.tail.y);
+				snake.x = (sList.getAt(sList.length-1).x-(tileSize+2));
+				snake.y = (sList.getAt(sList.length-1).y);
 				break;
 			case "up":
-				snake.x = (sList.tail.x);
-   				snake.y = (sList.tail.y+(tileSize+2));
+				snake.x = (sList.getAt(sList.length-1).x);
+   				snake.y = (sList.getAt(sList.length-1).y+(tileSize+2));
 				break;
 			case "down":
-				snake.x = (sList.tail.x);
-   				snake.y = (sList.tail.y-(tileSize+2));
+				snake.x = (sList.getAt(sList.length-1).x);
+   				snake.y = (sList.getAt(sList.length-1).y-(tileSize+2));
 				break;
 		}
    		snake.prevX = snake.x;
    		snake.prevY = snake.y;	
    		snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sBody.png");
    		sList.push_back(snake);
-   		world.addChild(sList.tail);
+   		world.addChild(sList.getAt(sList.length-1));
    		food.x = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
    		food.y = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
 	}
