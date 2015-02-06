@@ -1,7 +1,7 @@
 use2D = true;
 
 //Global vars
-var tileSize = 16; 
+var tileSize = 20; 
 gInput.addBool(65, "left");
 gInput.addBool(68, "right");
 gInput.addBool(87, "up");
@@ -11,7 +11,7 @@ var sHead = new Sprite();
 sHead.height = tileSize;
 sHead.width = tileSize;
 sHead.x = 400;
-sHead.y = 500;
+sHead.y = 400;
 sHead.prevX = sHead.x;
 sHead.prevY = sHead.y;
 sHead.direction = "right";
@@ -23,7 +23,7 @@ function initSnake() {
    	var snake = new Sprite();
    	snake.height = tileSize;
    	snake.width = tileSize;
-   	snake.x = (sList.getAt(i-1).x-18);
+   	snake.x = (sList.getAt(i-1).x-(tileSize+2));
    	snake.y = (sList.getAt(i-1).y);
    	snake.prevX = snake.x;
    	snake.prevY = snake.y;	
@@ -35,27 +35,16 @@ function initSnake() {
 	}
 }
 
-function moveRight(Sprite){
-	Sprite.x += tileSize;
-	Sprite.prevX += tileSize;
-}
-
-function moveLeft(Sprite){
-	Sprite.x -= tileSize;
-	Sprite.prevX -= tileSize;
-}
-
-function moveUp(Sprite){
-	Sprite.y -= tileSize;
-	Sprite.prevY -= tileSize;
-}
-
-function moveDown(Sprite){
-	Sprite.y += tileSize;
-	Sprite.prevY += tileSize;
-}
-
 function updateSnake(){
+	for(var i=1; i<sList.length; i++){
+		sList.getAt(i).prevX = sList.getAt(i).x;
+		sList.getAt(i).prevY = sList.getAt(i).y;
+		sList.getAt(i).x = sList.getAt(i-1).prevX;
+		sList.getAt(i).y = sList.getAt(i-1).prevY;
+	}
+}
+
+function updateGame(){
 	if(gInput.left && (sHead.direction != "right")){
 		sHead.direction = "left";
 	}
@@ -68,45 +57,28 @@ function updateSnake(){
 	if(gInput.down && (sHead.direction != "up")){
 		sHead.direction = "down";
 	}
+	sHead.prevX = sHead.x;
+	sHead.prevY = sHead.y;
 	switch(sHead.direction){
 		case "left":
-			sList.foreach(moveLeft);
-			break;
-		case "right":
-			sList.foreach(moveRight);
-			break;
-		case "up":
-			sList.foreach(moveUp);
-			break;
-		case "down":
-			sList.foreach(moveDown);
-			break;
-	}
-	/*switch(sHead.direction){
-		case "left":
-			sHead.prevX -= tileSize;
 			sHead.x -= tileSize;
 			break;
 		case "right":
-			sHead.prevX += tileSize;
 			sHead.x += tileSize;
 			break;
 		case "up":
-			sHead.prevY -= tileSize;
 			sHead.y -= tileSize;
 			break;
 		case "down":
-			sHead.prevY += tileSize;
 			sHead.y += tileSize;
-			break;			
+			break;
 	}
-	console.log("left = "+gInput.left);
+	updateSnake();
+	/*console.log("left = "+gInput.left);
 	console.log("right = "+gInput.right);
 	console.log("up = "+gInput.up);
 	console.log("down = "+gInput.down);*/
-	
 }
 
 initSnake();
-setInterval(updateSnake, 160);
-//setInterval(updateSnake, 1000);
+setInterval(updateGame, 160);
