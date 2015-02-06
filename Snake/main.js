@@ -35,6 +35,22 @@ function initSnake() {
 	}
 }
 
+function moveRight(Sprite){
+	Sprite.x += tileSize;
+}
+
+function moveLeft(Sprite){
+	Sprite.x -= tileSize;
+}
+
+function moveUp(Sprite){
+	Sprite.y -= tileSize;
+}
+
+function moveDown(Sprite){
+	Sprite.y += tileSize;
+}
+
 function updateSnake(){
 	if(gInput.left && !gInput.right && !gInput.up && !gInput.down && (sHead.direction != "right")){
 		sHead.direction = "left";
@@ -50,6 +66,20 @@ function updateSnake(){
 	}
 	switch(sHead.direction){
 		case "left":
+			sList.foreach(moveLeft);
+			break;
+		case "right":
+			sList.foreach(moveRight);
+			break;
+		case "up":
+			sList.foreach(moveUp);
+			break;
+		case "down":
+			sList.foreach(moveDown);
+			break;
+	}
+	/*switch(sHead.direction){
+		case "left":
 			sHead.prevX -= tileSize;
 			sHead.x -= tileSize;
 			break;
@@ -63,41 +93,14 @@ function updateSnake(){
 			break;
 		case "down":
 			sHead.prevY += tileSize;
-			sHead.y += tileSize;			
+			sHead.y += tileSize;
 			break;			
-	}
+	}*/
 	/*console.log("left = "+gInput.left);
 	console.log("right = "+gInput.right);
 	console.log("up = "+gInput.up);
 	console.log("down = "+gInput.down);*/
-	for(var i=1; i<sList.length; i++){
-		switch(sHead.direction){
-		case "left":
-			//sList.getAt(i).x = (sList.getAt(i-1).x+18);
-			//sList.getAt(i).y = (sList.getAt(i-1).y)
-			sList.getAt(i).x = (sList.getAt(i-1).prevX+18);
-			sList.getAt(i).y = (sList.getAt(i-1).prevY);
-			break;
-		case "right":
-			//sList.getAt(i).x = (sList.getAt(i-1).x-18);
-			//sList.getAt(i).y = (sList.getAt(i-1).y)
-			sList.getAt(i).x = (sList.getAt(i-1).prevX-18);
-			sList.getAt(i).y = (sList.getAt(i-1).prevY);
-			break;
-		case "up":
-			//sList.getAt(i).x = (sList.getAt(i-1).x);
-			//sList.getAt(i).y = (sList.getAt(i-1).y+18)
-			sList.getAt(i).x = (sList.getAt(i-1).prevX);
-			sList.getAt(i).y = (sList.getAt(i-1).prevY+18);
-			break;
-		case "down":
-			//sList.getAt(i).x = (sList.getAt(i-1).x);
-			//sList.getAt(i).y = (sList.getAt(i-1).y-18)
-			sList.getAt(i).x = (sList.getAt(i-1).prevX);
-			sList.getAt(i).y = (sList.getAt(i-1).prevY-18);
-			break;			
-		}
-	}
+	
 }
 
 initSnake();
