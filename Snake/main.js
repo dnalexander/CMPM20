@@ -108,7 +108,7 @@ function updateGame(){
 	
 	//Check for eaten
 	if(sHead.x == food.x && sHead.y == food.y){
-		/*var snake = new Sprite();
+		var snake = new Sprite();
    		snake.height = tileSize;
    		snake.width = tileSize;
    		switch(sHead.direction){
@@ -133,7 +133,9 @@ function updateGame(){
    		snake.prevY = snake.y;	
    		snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sBody.png");
    		sList.push_back(snake);
-   		world.addChild(sList.tail);*/
+   		world.addChild(sList.tail);
+   		food.x = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
+   		food.y = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
 	}
 	if(checkNom(sHead.x, sHead.y, sList)){
 		console.log("SHIT NIGGA");
