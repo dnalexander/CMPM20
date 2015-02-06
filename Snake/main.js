@@ -71,8 +71,8 @@ function updateSnake(){
 			sList.getAt(i).y = (sList.getAt(i-1).prevY);
 			break;
 		case "up":
-		 sList.getAt(i).x = (sList.getAt(i-1).prevX);
-		 sList.getAt(i).y = (sList.getAt(i-1).prevY+2);
+		 	sList.getAt(i).x = (sList.getAt(i-1).prevX);
+		 	sList.getAt(i).y = (sList.getAt(i-1).prevY+2);
 			break;
 		case "down":
 			sList.getAt(i).x = (sList.getAt(i-1).prevX);
