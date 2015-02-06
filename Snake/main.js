@@ -20,7 +20,17 @@ sHead.prevX = sHead.x;
 sHead.prevY = sHead.y;
 sHead.direction = "right";
 sHead.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sHead.png");
-function startGame() {	
+
+var food = new Sprite();
+food.width = tileSize;
+food.height = tileSize;
+food.x;
+food.y;
+food.image = Textures.load("http://people.ucsc.edu/~donalexa/food.png");
+world.addChild(food);
+console.log(food.x, food.y);
+
+function startGame() {
 	sHead.x = 400;
 	sHead.y = 400;
 	sHead.prevX = sHead.x;
