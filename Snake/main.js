@@ -28,7 +28,6 @@ food.x;
 food.y;
 food.image = Textures.load("http://people.ucsc.edu/~donalexa/food.png");
 world.addChild(food);
-console.log(food.x, food.y);
 
 function startGame() {
 	sHead.x = 400;
@@ -36,6 +35,8 @@ function startGame() {
 	sHead.prevX = sHead.x;
 	sHead.prevY = sHead.y;
 	sHead.direction = "right";
+	food.x = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
+	food.y = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
     var length = 4;
     sList.push(sHead);
     for(var i=1; i<length; i++){
@@ -101,6 +102,7 @@ function checkSnake(Sprite1, Sprite2){
 }
 
 function updateGame(){
+	//Check for end game
 	if(sHead.x+tileSize >= worldWidth || sHead.x <= 0 || sHead.y+tileSize >= worldHeight || sHead.y <= 0){
 		stop = true;
 		clearInterval(run);
@@ -113,6 +115,10 @@ function updateGame(){
 		}
 		startGame();
 	}
+	
+	//Check for eaten
+	
+	//Movement
 	if(gInput.left && (sHead.direction != "right")){
 		sHead.direction = "left";
 	}
@@ -141,7 +147,7 @@ function updateGame(){
 			sHead.y += tileSize;
 			break;
 	}
-	updateSnake();	
+	updateSnake();		
 }
 
 startGame();
