@@ -37,6 +37,7 @@ function initSnake() {
 
 function moveRight(Sprite){
 	Sprite.x += tileSize;
+	Sprite.prevX += tileSize;
 }
 
 function moveLeft(Sprite){
