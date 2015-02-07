@@ -5,13 +5,15 @@ var worldWidth = 800;
 var worldHeight = 800;
 var run;
 var p1Score;
+var p1Highest = 0;
 var p1ScoreTxt = new TextBox();
 p1ScoreTxt.x = 10;
 p1ScoreTxt.y = 10;
 world.addChild(p1ScoreTxt);
 var p2Score;
+var p2Highest = 0;
 var p2ScoreTxt = new TextBox();
-p2ScoreTxt.x = worldWidth-(5*tileSize);
+p2ScoreTxt.x = worldWidth-(10*tileSize);
 p2ScoreTxt.y = 10;
 world.addChild(p2ScoreTxt);
 
@@ -206,6 +208,8 @@ function restart(){
 		for(var j=0; j<hold2; j++){
 			s2List.pop(Sprite);
 		}
+		if(p1Score > p1Highest) p1Highest = p1Score;
+		if(p2Score > p2Highest) p2Highest = p1Score;
 		startGame();
 }
 
@@ -284,8 +288,8 @@ function updateGame(){
 	}
 	updateSnake(s1List);
 	updateSnake(s2List);
-	p1ScoreTxt.text = "P1 Score: "+p1Score;
-	p2ScoreTxt.text = "P2 Score: "+p2Score;
+	p1ScoreTxt.text = "P1 Score: "+p1Score+"\nP1 Highest Score: "+p1Highest;
+	p2ScoreTxt.text = "P2 Score: "+p2Score+"\nP2 Highest Score: "+p2Highest;
 }
 
 startGame();
