@@ -193,6 +193,7 @@ function checkDinner(List){
 }
 
 function restart(){
+	//Stop the game, clear snakes, manage scores, start again
 	clearInterval(run);
 		var hold1 = s1List.length;
 		var hold2 = s2List.length;
