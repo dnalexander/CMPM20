@@ -1,10 +1,19 @@
 use2D = true;
-
 //Global vars
 var tileSize = 20; 
 var worldWidth = 800;
 var worldHeight = 800;
 var run;
+var p1Score;
+var p1ScoreTxt = new TextBox();
+p1ScoreTxt.x = 10;
+p1ScoreTxt.y = 10;
+world.addChild(p1ScoreTxt);
+var p2Score;
+var p2ScoreTxt = new TextBox();
+p2ScoreTxt.x = worldWidth-(5*tileSize);
+p2ScoreTxt.y = 10;
+world.addChild(p2ScoreTxt);
 
 //Input bools : Player1 controls are WASD
 gInput.addBool(65, "p1Left");
@@ -42,6 +51,7 @@ s2Head.prevY = s2Head.y;
 s2Head.direction = "left";
 s2Head.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/food.png");
 
+//Create food
 var food = new Sprite();
 food.width = tileSize;
 food.height = tileSize;
@@ -51,6 +61,7 @@ food.image = Textures.load("http://people.ucsc.edu/~donalexa/food.png");
 world.addChild(food);
 
 function startGame() {
+	//Set object vars
 	s1Head.x = 400;
 	s1Head.y = 100;
 	s1Head.prevX = s1Head.x;
@@ -63,7 +74,11 @@ function startGame() {
 	s2Head.direction = "left";
 	food.x = 400;
 	food.y = 400;
+	p1Score = 0;
+	p2Score = 0;
     var length = 4;
+    
+    //Begin snake creation
     s1List.push(s1Head);
     s2List.push(s2Head);
     for(var i=1; i<length; i++){
@@ -88,14 +103,19 @@ function startGame() {
    		snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/food.png");
    		s2List.push(snake);
 	}
+	
+	//Populate
 	for(var j=0; j<length; j++){
 		world.addChild(s1List.getAt(j));
 		world.addChild(s2List.getAt(j));
 	}
+	
+	//Go
 	run = setInterval(updateGame, 160);
 }
 
 function updateSnake(List){
+	//Move each snake segment based on where the one ahead of it used to be
 	for(var i=1; i<List.length; i++){
 		List.getAt(i).prevX = List.getAt(i).x;
 		List.getAt(i).prevY = List.getAt(i).y;
@@ -121,9 +141,9 @@ function updateSnake(List){
 }
 
 
-function checkNom(x, y, List){	
+function checkNom(List){
 	for(var i=1; i<List.length; i++){
-		if(List.getAt(i).x == x && List.getAt(i).y == y){
+		if(List.getAt(0).x == List.getAt(i).x && List.getAt(0).y == List.getAt(i).y){
 			return true;
 		}
 	}
@@ -157,9 +177,11 @@ function checkDinner(List){
    		snake.prevY = snake.y;
    		if(List == s1List){
    			snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sBody.png");
+   			p1Score++;
    		}
    		if(List == s2List){
    			snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/food.png");
+   			p2Score++;
    		}
    		List.push_back(snake);
    		world.addChild(List.getAt(List.length-1));
@@ -168,11 +190,8 @@ function checkDinner(List){
 	}
 }
 
-function updateGame(){
-	//Check for wall hit, re-init game
-	if(s1Head.x >= worldWidth || s1Head.x <= 0 || s1Head.y >= worldHeight || s1Head.y <= 0
-		|| s2Head.x >= worldWidth || s2Head.x <= 0 || s2Head.y >= worldHeight || s2Head.y <=0){
-		clearInterval(run);
+function restart(){
+	clearInterval(run);
 		var hold1 = s1List.length;
 		var hold2 = s2List.length;
 		for(var i=0; i<hold1; i++){
@@ -188,47 +207,25 @@ function updateGame(){
 			s2List.pop(Sprite);
 		}
 		startGame();
+}
+
+function updateGame(){
+	//Check for wall hit, re-init game
+	if(s1Head.x >= worldWidth || s1Head.x <= 0 || s1Head.y >= worldHeight || s1Head.y <= 0
+		|| s2Head.x >= worldWidth || s2Head.x <= 0 || s2Head.y >= worldHeight || s2Head.y <=0){
+		restart();
 	}
 	
 	//Check for dinner, grow snake properly
 	checkDinner(s1List);
 	checkDinner(s2List);
-	/*if(s1Head.x == food.x && s1Head.y == food.y){
-		var snake = new Sprite();
-   		snake.height = tileSize;
-   		snake.width = tileSize;
-   		switch(s1Head.direction){
-			case "left":
-   				snake.x = (s1List.getAt(s1List.length-1).x+(tileSize+2));
-   				snake.y = (sList.getAt(sList.length-1).y);
-   				break;
-			case "right":
-				snake.x = (sList.getAt(sList.length-1).x-(tileSize+2));
-				snake.y = (sList.getAt(sList.length-1).y);
-				break;
-			case "up":
-				snake.x = (sList.getAt(sList.length-1).x);
-   				snake.y = (sList.getAt(sList.length-1).y+(tileSize+2));
-				break;
-			case "down":
-				snake.x = (sList.getAt(sList.length-1).x);
-   				snake.y = (sList.getAt(sList.length-1).y-(tileSize+2));
-				break;
-		}
-   		snake.prevX = snake.x;
-   		snake.prevY = snake.y;	
-   		snake.image = Textures.load("http://people.ucsc.edu/~tmcqueen/Sprites/sBody.png");
-   		sList.push_back(snake);
-   		world.addChild(sList.getAt(sList.length-1));
-   		food.x = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
-   		food.y = (Math.floor(Math.random()*(worldWidth/tileSize)))*tileSize;
-	}*/
-	
+		
 	//Check for self-dinner, re-init game
-	/*if(checkNom(sHead.x, sHead.y, sList)){
-	}*/
+	if(checkNom(s1List) || checkNom(s2List)){
+		restart();
+	}
 
-	//Movement (Lines 145-)
+	//Movement (Lines 215-273)
 	if(gInput.p1Left && (s1Head.direction != "right")){
 		s1Head.direction = "left";
 	}
@@ -287,6 +284,8 @@ function updateGame(){
 	}
 	updateSnake(s1List);
 	updateSnake(s2List);
+	p1ScoreTxt.text = "P1 Score: "+p1Score;
+	p2ScoreTxt.text = "P2 Score: "+p2Score;
 }
 
 startGame();
